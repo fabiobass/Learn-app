@@ -1,6 +1,5 @@
-package com.devsuperior.dslearnbds.entities.sevices.exceptions;
+package com.devsuperior.dslearnbds.services.exceptions;
 
-// tratar erros
 public class DatabaseException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
 

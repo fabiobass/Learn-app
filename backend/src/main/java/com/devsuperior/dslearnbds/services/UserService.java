@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dslearnbds.dto.UserDTO;
 import com.devsuperior.dslearnbds.entities.User;
-import com.devsuperior.dslearnbds.entities.sevices.exceptions.ResourceNotFoundException;
 import com.devsuperior.dslearnbds.repositories.UserRepository;
+import com.devsuperior.dslearnbds.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -24,9 +24,15 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository repository;
 	
+	@Autowired
+	private AuthService authService;
+	
 	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
+		
+		authService.validateSelfIrAdmin(id);
+		
 		Optional<User> obj = repository.findById(id);
 		User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entidade não encontrada"));
 		return new UserDTO(entity);
